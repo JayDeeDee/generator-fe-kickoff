@@ -1,0 +1,24 @@
+Description:
+    Creates a new basic felab based design system.
+
+Options:
+    Bootstrap: Include Bootstrap (grid system only, reboot only or grid system with components)
+    Velocity: Include velocity.js
+    Visual Regression Testing: Add Visual Regression testing with Backstop.js
+
+Example:
+    yo felab
+
+    This will create:
+        gulpfile.js: configuration for panini
+        gruntfile.js: configuration of load-grunt-config and jit-grunt
+        package.json: development packages installed by yarn
+        .editorconfig
+
+        felab/: Grunt tasks and configuration for the build system.
+        app/: Static web optimized built files.
+        tmp/: Development built files.
+        src/: Source Files.
+        test/: tests for your design system.
+        doc/: documentation for your design system.
+        _devel: Store additional project specific information and files.
