@@ -1,0 +1,31 @@
+# + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+# @file developer team: we are people not machines
+#
+# information about the people who have contributed
+# humanstxt.org
+# + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
+
+/* TEAM */
+
+    developer: Jana Deutschlaender
+    contact: deutschlaender@cosmocode.de
+    from: Berlin, Germany
+
+
+/* THANKS */
+
+    feedback & qs: Silke Pisulla, Michael Grosse
+    from: Berlin, Germany
+
+    professor: Jörn Kreutel
+    from: Berlin, Germany
+
+
+/* SITE */
+
+    Last update: 2018/04/02
+    Standards: HTML5, CSS3, JavaScript (ES5)
+    Components: Modernizr, jQuery, Bootstrap...
+    Software: Node.js, npm, yarn, Grunt.js, Gulp, Sass
+    IDE: IntelliJ IDEA, Adobe PhotoShop, Adobe Illustrator

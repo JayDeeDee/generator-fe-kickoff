@@ -10,12 +10,12 @@ Example:
     yo felab
 
     This will create:
-        gulpfile.js: configuration for panini
-        gruntfile.js: configuration of load-grunt-config and jit-grunt
+        Gulpfile.js: configuration for gulp-hub
+        Gruntfile.js: configuration of load-grunt-config and jit-grunt
         package.json: development packages installed by yarn
         .editorconfig
 
-        felab/: Grunt tasks and configuration for the build system.
+        felab/: Grunt and Gulp tasks and configuration for the build system.
         app/: Static web optimized built files.
         tmp/: Development built files.
         src/: Source Files.
