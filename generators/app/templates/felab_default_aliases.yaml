@@ -5,7 +5,7 @@ StartServer-DevSync:
   description: 'build assets and start local dev server with browser-sync'
   tasks:
     - 'Build-For-Dev'
-#    - 'server:sync'
+    - 'server:sync'
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # local development server with watch task
@@ -14,7 +14,7 @@ StartServer-DevWatch:
   description: 'build assets and start local dev server'
   tasks:
     - 'Build-For-Dev'
-#    - 'server:auto'
+    - 'server:auto'
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # local development server with watch task
@@ -22,13 +22,17 @@ StartServer-DevWatch:
 StartServer-VRT:
   description: 'build assets and start local dev server'
   tasks:
-#    - 'Build-For-VRT'
-#    - 'server:test'
+    - 'server:test'
 
-default:
-  description: 'default task will run if grunt is used without task name'
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# build documentation
+#
+Build-Documentation:
+  description: 'build documentations'
   tasks:
     - 'sassdoc'
+
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -40,16 +44,11 @@ Build-For-Dev:
     - 'clean:dev'
     - 'sass:dev'
     - 'postcss:dev'
-#    - 'concat:head'
-#    - 'concat:lib'
-#    - 'concat:modules'
-#    - 'concat:body'
-#    - 'clean:font'
-#    - 'copy:font'
-#    - 'clean:img'
-#    - 'copy:img'
-#    - 'clean:markup'
-#    - 'bake:dist'
+    - 'concat:head'
+    - 'concat:body'
+    - 'copy:font'
+    - 'copy:img'
+    - 'exec:markup'
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # build process with minification
@@ -66,38 +65,3 @@ Build-For-Deploy:
     - 'postcss:deploy'
 
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# build documentation
-#
-Build-Documentation:
-  description: 'build documentations'
-  tasks:
-    - 'sassdoc'
-
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# local development server with watch task
-#
-VRT-startServer:
-  description: 'build assets and start local dev server'
-  tasks:
-#    - 'Build-For-VRT'
-#    - 'server:test'
-VRT-reference:
-  description: 'default task will run if grunt is used without task name'
-  tasks:
-    - 'sassdoc'
-VRT-test:
-  description: 'default task will run if grunt is used without task name'
-  tasks:
-    - 'sassdoc'
-
-VRT-approve:
-  description: 'default task will run if grunt is used without task name'
-  tasks:
-    - 'sassdoc'
-
-VRT-openReport:
-  description: 'default task will run if grunt is used without task name'
-  tasks:
-    - 'sassdoc'

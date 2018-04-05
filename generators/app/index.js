@@ -137,6 +137,7 @@ module.exports = class extends Generator {
     this._writingGrunt();
     this._writingGulp();
     this._writingMarkup();
+    this._writingScript();
 
     // Flexible element
     this._adaptPackageJSON();
@@ -233,8 +234,8 @@ module.exports = class extends Generator {
     );
 
     this.fs.copy(
-      this.templatePath('src_scss_01-setting_00_grid.scss'),
-      this.destinationPath('src/scss/01-setting/00_grid.scss')
+      this.templatePath('src_scss_01-settings_00_grid.scss'),
+      this.destinationPath('src/scss/01-settings/00_grid.scss')
     );
 
     this.fs.copy(
@@ -261,6 +262,13 @@ module.exports = class extends Generator {
       this.templatePath('src_scss_07-trumps__hotfixes.scss'),
       this.destinationPath('src/scss/07-trumps__hotfixes.scss')
     );
+  }
+
+  _optionalVRT() {
+    let isVRT = false;
+    if (this.props.useVRT || this.options['use-vrt']) {
+      isVRT = true;
+    }
   }
 
   /**
@@ -291,6 +299,21 @@ module.exports = class extends Generator {
   }
 
   /**
+   * Rename and copy script dummies
+   * @private
+   */
+  _writingScript() {
+    this.fs.copy(
+      this.templatePath('src_script_body.js'),
+      this.destinationPath('src/script/body.js')
+    );
+    this.fs.copy(
+      this.templatePath('src_script_head.js'),
+      this.destinationPath('src/script/head.js')
+    );
+  }
+
+  /**
    * Rename and copy markup
    * @private
    */
@@ -309,7 +332,7 @@ module.exports = class extends Generator {
     );
     this.fs.copy(
       this.templatePath('src_markup_partials_area_header.html'),
-      this.destinationPath('src/markup/partials/area_header.html')
+      this.destinationPath('src/markup/partials/area/header.html')
     );
   }
 
@@ -344,12 +367,24 @@ module.exports = class extends Generator {
       this.destinationPath('felab/default/aliases.yaml')
     );
     this.fs.copy(
+      this.templatePath('felab_default_concat.js'),
+      this.destinationPath('felab/default/concat.js')
+    );
+    this.fs.copy(
+      this.templatePath('felab_default_copy.js'),
+      this.destinationPath('felab/default/copy.js')
+    );
+    this.fs.copy(
       this.templatePath('felab_default_clean.js'),
       this.destinationPath('felab/default/clean.js')
     );
     this.fs.copy(
       this.templatePath('felab_default_config.json'),
       this.destinationPath('felab/default/config.json')
+    );
+    this.fs.copy(
+      this.templatePath('felab_default_exec.js'),
+      this.destinationPath('felab/default/exec.js')
     );
     this.fs.copy(
       this.templatePath('felab_default_postcss.js'),

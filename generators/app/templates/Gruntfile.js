@@ -12,7 +12,7 @@ module.exports = function (grunt) {
             jitGrunt: {
                 // map name of tasks to modules / scripts
                 staticMappings: {
-                    styles: 'felab/custom/server.js',
+                    server: 'felab/custom/server.js',
                     testconfig: 'felab/custom/testconfig.js'
                 }
             },
