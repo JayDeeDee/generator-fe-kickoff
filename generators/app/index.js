@@ -142,6 +142,8 @@ module.exports = class extends Generator {
     // Flexible element
     this._adaptPackageJSON();
     this._adaptSass();
+    this._optionalVRT();
+    // Optional elements
   }
 
   /**
@@ -259,15 +261,43 @@ module.exports = class extends Generator {
     );
 
     this.fs.copy(
+      this.templatePath('src_scss_06-components_e_spacer.scss'),
+      this.destinationPath('src/scss/06-components/e_spacer.scss')
+    );
+
+    this.fs.copy(
       this.templatePath('src_scss_07-trumps__hotfixes.scss'),
       this.destinationPath('src/scss/07-trumps__hotfixes.scss')
     );
   }
 
+  /**
+   * Optional add visual regression tests
+   * @private
+   */
   _optionalVRT() {
     let isVRT = false;
     if (this.props.useVRT || this.options['use-vrt']) {
       isVRT = true;
+      // Config file for visual regression tests
+      this.fs.copy(
+        this.templatePath('test_visual-regression-tests_backstop_config.js'),
+        this.destinationPath('test/visual-regression-tests/backstop_config.js')
+      );
+      // Config for viewports
+      this.fs.copy(
+        this.templatePath('test_visual-regression-tests_backstop_viewports.js'),
+        this.destinationPath('test/visual-regression-tests/backstop_viewports.js')
+      );
+
+      // Add Tasts for VRT if this option is chosen
+      this.fs.copyTpl(
+        this.templatePath('felab_default_aliases.yaml'),
+        this.destinationPath('felab/default/aliases.yaml'),
+        {
+          includeVRT: isVRT
+        }
+      );
     }
   }
 
@@ -334,6 +364,10 @@ module.exports = class extends Generator {
       this.templatePath('src_markup_partials_area_header.html'),
       this.destinationPath('src/markup/partials/area/header.html')
     );
+    this.fs.copy(
+      this.templatePath('src_markup_index.html'),
+      this.destinationPath('src/markup/index.html')
+    );
   }
 
   /**
@@ -362,10 +396,7 @@ module.exports = class extends Generator {
       this.templatePath('felab_custom_testconfig.js'),
       this.destinationPath('felab/custom/testconfig.js')
     );
-    this.fs.copy(
-      this.templatePath('felab_default_aliases.yaml'),
-      this.destinationPath('felab/default/aliases.yaml')
-    );
+
     this.fs.copy(
       this.templatePath('felab_default_concat.js'),
       this.destinationPath('felab/default/concat.js')
@@ -385,6 +416,10 @@ module.exports = class extends Generator {
     this.fs.copy(
       this.templatePath('felab_default_exec.js'),
       this.destinationPath('felab/default/exec.js')
+    );
+    this.fs.copy(
+      this.templatePath('felab_default_watch.js'),
+      this.destinationPath('felab/default/watch.js')
     );
     this.fs.copy(
       this.templatePath('felab_default_postcss.js'),

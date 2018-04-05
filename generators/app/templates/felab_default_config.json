@@ -53,6 +53,7 @@
     "srcDir": "./src/markup",
     "distDir": "./app",
     "devDir": "./tmp",
+    "testDir": "/test/visual-regression-tests/markup",
     "generator": {
       "root": "./src/markup/pages/",
       "layouts": "./src/markup/layouts/",
@@ -66,7 +67,8 @@
     "description": "configurations for development and test server",
     "portUi": "8082",
     "portSync": "8080",
-    "portDev": "8081",
+    "portDev": "8082",
+    "portTest": "8081",
     "browser": ["chrome"],
     "logLevel": "debug",
     "files": [

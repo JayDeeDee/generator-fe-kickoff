@@ -8,7 +8,13 @@
     "license": "MIT",
     "engines": {
         "node": ">=6.0"
-    },
+    },<% if (includeVRT) { %>
+  "scripts": {
+    "backstop-test": "$(npm bin)/backstop --config=test/visual-regression-tests/backstop_config.js test",
+    "backstop-reference": "$(npm bin)/backstop --config=test/visual-regression-tests/backstop_config.js reference",
+    "backstop-approve": "$(npm bin)/backstop --config=test/visual-regression-tests/backstop_config.js approve",
+    "backstop-openReport": "$(npm bin)/backstop --config=test/visual-regression-tests/backstop_config.js openReport"
+  },<% } %>
     "dependencies": {<% if (includeBootstrap) { %>
         "bootstrap": "^4.0.0",<% } %><% if (includeBootstrap || includeJquery) { %>
         "jquery": "^3.3.1",<% } %><% if (includeBootstrap) { %>

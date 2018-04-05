@@ -15,7 +15,7 @@ StartServer-DevWatch:
   tasks:
     - 'Build-For-Dev'
     - 'server:auto'
-
+<% if (includeVRT) { %>
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # local development server with watch task
 #
@@ -23,7 +23,7 @@ StartServer-VRT:
   description: 'build assets and start local dev server'
   tasks:
     - 'server:test'
-
+<% } %>
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # build documentation
@@ -48,7 +48,8 @@ Build-For-Dev:
     - 'concat:body'
     - 'copy:font'
     - 'copy:img'
-    - 'exec:markup'
+    - 'copy:html'
+ #   - 'exec:markup'
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # build process with minification
@@ -63,5 +64,40 @@ Build-For-Deploy:
     - 'clean:font'
     - 'sass:deploy'
     - 'postcss:deploy'
+    - 'concat:headdist'
+    - 'concat:bodydist'
+    - 'copy:fontdist'
+    - 'copy:imgdist'
+#    - 'exec:markupdist'
 
 
+<% if (includeVRT) { %>
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# visual regression tasks
+#
+VRT-startServer:
+  description: 'build assets and start local dev server'
+  tasks:
+    - 'copy:htmltest'
+    - 'server:test'
+
+VRT-reference:
+  description: 'add an vrt reference screenshot'
+  tasks:
+    - 'exec:vrtreference'
+VRT-test:
+  description: 'run the vrt'
+  tasks:
+    - 'exec:vrttest'
+
+VRT-approve:
+  description: 'approve the last screenshot'
+  tasks:
+    - 'exec:vrttestvrtapprove'
+
+VRT-openReport:
+  description: 'open vrt report'
+  tasks:
+    - 'exec:vrtreport'
+
+<% } %>

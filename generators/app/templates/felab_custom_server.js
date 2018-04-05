@@ -36,7 +36,7 @@ module.exports = function (grunt) {
      */
     grunt.registerTask('connect-test', function () {
         const dirs = grunt.config.get('dev.testConnectDir'),
-            port = grunt.config.get('dev.portDev'),
+            port = grunt.config.get('dev.portTest'),
             app = connect();
 
         dirs.forEach(function (dir) {
@@ -97,7 +97,7 @@ module.exports = function (grunt) {
         console.log('server -------------------------------------');
         const tasks = {
             sync: ['bs-init', 'watch'], // watch all src files for code changes
-            test: ['connect-test', 'watch:test'], // watch test src files for code changes
+            test: ['connect-test'], // do not watch for changes in test folder for code changes
             auto: ['connect-init', 'watch'], // watch all src files for code changes
             default: ['bs-init', 'watch'] // default: watch all src files for code changes
         };

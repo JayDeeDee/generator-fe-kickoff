@@ -24,6 +24,39 @@ module.exports = {
       dest: '<%=config.img.distDir%>'
     }]
   },
+
+  testtpl: {
+    files: [{
+      expand: true,
+      cwd: '<%=config.markup.srcDir%>',
+      src: ['**/*'],
+      dest: '<%=config.markup.testDir%>'
+    }]
+  },
+  html: {
+    files: [{
+      expand: true,
+      cwd: '<%=config.markup.srcDir%>',
+      src: ['*'],
+      dest: '<%=config.markup.devDir%>'
+    }]
+  },
+  htmldist: {
+    files: [{
+      expand: true,
+      cwd: '<%=config.markup.srcDir%>',
+      src: ['*.html'],
+      dest: '<%=config.markup.distDir%>'
+    }]
+  },
+  htmltest: {
+    files: [{
+      expand: true,
+      cwd: '<%=config.markup.srcDir%>',
+      src: ['*.html'],
+      dest: '<%=config.markup.testDir%>'
+    }]
+  },
   fontdist: {
     files: [{
       expand: true,
