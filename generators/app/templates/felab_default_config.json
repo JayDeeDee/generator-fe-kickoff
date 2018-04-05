@@ -1,0 +1,94 @@
+{
+  "src": "./felab/*.js",
+  "srcDir": "src",
+  "distDir": "app",
+  "devDir": "tmp",
+  "testDir": "test",
+  "staticFolder": "static",
+
+  "css": {
+    "description": "style related configurations",
+    "srcDir": "<%=config.srcDir%>/scss",
+    "distDir": "<%=config.distDir%>/<%=config.staticFolder%>/css",
+    "devDir": "<%=config.devDir%>/<%=config.staticFolder%>/css",
+    "srcFileName": "require.scss",
+    "distFileName": "styles.css",
+    "compileFiles": {
+      "0": {
+        "dist": "<%=config.css.distDir%>/<%=config.css.distFileName%>",
+        "dev": "<%=config.css.devDir%>/<%=config.css.distFileName%>",
+        "src": "<%=config.css.srcDir%>/<%=config.css.srcFileName%>"
+      }
+    },
+    "autoprefixer": ["> 5%", "last 2 versions", "ie > 9"]
+  },
+
+  "js": {
+    "description": "js related configurations",
+    "srcDir": "<%=config.srcDir%>/script",
+    "distDir": "<%=config.distDir%>/<%=config.staticFolder%>/js",
+    "devDir": "<%=config.devDir%>/<%=config.staticFolder%>/js",
+    "distBodyFileName": "body.js",
+    "distRequireConfigFileName": "main.js",
+    "distHeadFileName": "head.js"
+  },
+
+  "img": {
+    "description": "img related configurations",
+    "srcDir": "<%=config.srcDir%>/scss/img",
+    "distDir": "<%=config.distDir%>/<%=config.staticFolder%>/img",
+    "devDir": "<%=config.devDir%>/<%=config.staticFolder%>/img"
+  },
+
+  "font": {
+    "description": "configurations for icon fonts and web fonts",
+    "srcDir": "<%=config.srcDir%>/scss/font",
+    "distDir": "<%=config.distDir%>/<%=config.staticFolder%>/font",
+    "devDir": "<%=config.devDir%>/<%=config.staticFolder%>/img"
+  },
+
+  "markup": {
+    "description":
+      "configurations for html templates: beware it is used in gulp: DO NOT use grunt templates here",
+    "srcDir": "./src/markup",
+    "distDir": "./app",
+    "devDir": "./tmp",
+    "generator": {
+      "root": "./src/markup/pages/",
+      "layouts": "./src/markup/layouts/",
+      "partials": "./src/markup/partials/",
+      "helpers": "./src/markup/helpers/",
+      "data": "./src/markup/data/"
+    }
+  },
+
+  "dev": {
+    "description": "configurations for development and test server",
+    "portUi": "8082",
+    "portSync": "8080",
+    "portDev": "8081",
+    "browser": ["chrome"],
+    "logLevel": "debug",
+    "files": [
+      "<%=config.css.distDir%>/*.css",
+      "<%=config.js.distDir%>/*.js",
+      "<%=config.img.distDir%>/*.*",
+      "<%=config.distDir%>/*.html"
+    ],
+    "baseDir": [
+      "<%=config.distDir%>",
+      "<%=config.devDir%>",
+      "<%=config.srcDir%>"
+    ],
+    "baseConnectDir": [
+      "<%=config.distDir%>",
+      "<%=config.devDir%>",
+      "<%=config.srcDir%>"
+    ],
+    "testConnectDir": [
+      "<%=config.distDir%>",
+      "<%=config.devDir%>",
+      "<%=config.testDir%>"
+    ]
+  }
+}

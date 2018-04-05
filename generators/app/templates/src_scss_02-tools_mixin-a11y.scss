@@ -1,0 +1,54 @@
+/**
+ * + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+ * a11y: accessibility related mixins:
+ * usage: @include mixinName;
+ * + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+ */
+
+
+/// make sth. accessible for screen reader but hide them on screen
+///
+/// @group 01: custom tools & settings
+@mixin sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    border: 0 none;
+}
+
+
+/// show hidden element on focus for keyboard navigation
+/// @group 01: custom tools & settings
+
+@mixin sr-only-focusable {
+    &:active,
+    &:focus {
+        position: static;
+        width: auto;
+        height: auto;
+        overflow: visible;
+        white-space: normal;
+        clip: auto;
+        clip-path: none;
+    }
+}
+
+
+/// make sth. accessible for screen reader but place top left position out of visible viewport
+///
+/// @group 01: custom tools & settings
+@mixin sr-out {
+    display: block;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    top: -200000em;
+    left: -200000em;
+}

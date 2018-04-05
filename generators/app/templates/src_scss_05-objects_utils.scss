@@ -1,0 +1,30 @@
+/**
+ * + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+ * utility classes:
+ * do not use nesting, write extendable classes only
+ * usage: @extend %className; (flat) or @extend .className; (deep)
+ * + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+ */
+
+
+.sr-out,
+%sr-out {
+    @include sr-out;
+}
+
+.sr-kb-out,
+%sr-kb-out {
+    @extend %sr-out;
+    @include sr-only-focusable;
+}
+
+.sr-only,
+%sr-only {
+    @include sr-only;
+}
+
+.clearer,
+%clearer {
+    @include clear;
+}
+

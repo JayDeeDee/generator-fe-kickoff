@@ -1,0 +1,11 @@
+/**
+ * + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+ * spacer: content element
+ * used global in content
+ * + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+ */
+
+.spacer {
+    @include clear;
+    width: 100%;
+}

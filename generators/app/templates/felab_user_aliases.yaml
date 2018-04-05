@@ -1,0 +1,8 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Custom
+#
+# User-Task:
+#  description: 'custom task to temporary overwrite the defaults'
+#  tasks:
+#    - 'Build-For-Dev'
+#    - 'server:sync'

@@ -1,0 +1,35 @@
+/**
+ * + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+ * tags without context or classes
+ * + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+ */
+
+
+
+main {
+    // ie does not have default block styles for main tag
+    display: block;
+}
+
+sub,
+sup {
+    line-height: 100%;
+}
+
+strong,
+b {
+    font-weight: bold;
+}
+
+a {
+    &:link,
+    &:visited {
+        text-decoration: none;
+    }
+
+    // for IE10
+    img,
+    svg {
+        border: 0 none;
+    }
+}

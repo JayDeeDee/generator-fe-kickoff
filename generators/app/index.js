@@ -68,14 +68,55 @@ module.exports = class extends Generator {
         yosay(`Let's build a design system with the ${chalk.yellow('felab')} generator!`)
       );
     }
-    const prompts = [
-      {
-        type: 'confirm',
-        name: 'someAnswer',
-        message: 'Would you like to enable this option?',
-        default: true
-      }
-    ];
+
+    const prompts =
+      this.options['use-velocity'] ||
+      this.options['use-feature'] ||
+      this.options['use-vrt']
+        ? []
+        : [
+            {
+              type: 'list',
+              choices: [
+                {
+                  name: 'Bootstrap Grid System',
+                  value: 'bs-grid'
+                },
+                {
+                  name: 'Bootstrap Reboot',
+                  value: 'bs-reset'
+                },
+                {
+                  name: 'Bootstrap Grid System and Components',
+                  value: 'bs-modules'
+                },
+                {
+                  name: 'jQuery',
+                  value: 'jquery'
+                },
+                {
+                  name: 'None',
+                  value: 'none'
+                }
+              ],
+              name: 'useFeature',
+              message:
+                'Which Bootstrap Option would you like to include? Or just jQuery instead?',
+              default: 'None'
+            },
+            {
+              type: 'confirm',
+              name: 'useVelocity',
+              message: 'Do you want to use Velocity.js for faster animations?',
+              default: false
+            },
+            {
+              type: 'confirm',
+              name: 'useVRT',
+              message: 'Do you want do add Visual Regression Tests to your local server?',
+              default: false
+            }
+          ];
 
     return this.prompt(prompts).then(props => {
       // To access props later use this.props.someAnswer;
@@ -87,10 +128,19 @@ module.exports = class extends Generator {
    * Writing phase
    */
   writing() {
+    this._buildFolders();
+
+    // Fixed elements
     this._writingEditorConfig();
+    this._writingGitIgnore();
     this._writingSassLint();
-    this._writingGruntfile();
-    this._writingGulpfile();
+    this._writingGrunt();
+    this._writingGulp();
+    this._writingMarkup();
+
+    // Flexible element
+    this._adaptPackageJSON();
+    this._adaptSass();
   }
 
   /**
@@ -111,6 +161,107 @@ module.exports = class extends Generator {
   /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
    * Various private methods for copying files into the project
    */
+
+  /**
+   * Adapt package.json
+   * @private
+   */
+  _adaptPackageJSON() {
+    const feat = this.props.useFeature;
+    const opt = this.options['use-feature'];
+
+    let isBootstrap = false;
+    let isJquery = false;
+    let isVelocity = false;
+    let isVRT = false;
+    if (feat) {
+      isBootstrap = feat.indexOf('bs') >= 0;
+      isJquery = isBootstrap || feat.indexOf('jquery') >= 0;
+    } else if (opt) {
+      isBootstrap = opt.indexOf('bs') >= 0;
+      isJquery = isBootstrap || opt.indexOf('jquery') >= 0;
+    }
+
+    if (this.props.useVelocity || this.options['use-velocity']) {
+      isVelocity = true;
+    }
+    if (this.props.useVRT || this.options['use-vrt']) {
+      isVRT = true;
+    }
+
+    this.fs.copyTpl(
+      this.templatePath('_package.json'),
+      this.destinationPath('package.json'),
+      {
+        includeVelocity: isVelocity,
+        includeBootstrap: isBootstrap,
+        includeJquery: isJquery,
+        includeVRT: isVRT
+      }
+    );
+  }
+
+  /**
+   * Adapt require.scss and rename and copy modules
+   * @private
+   */
+  _adaptSass() {
+    const feat = this.props.useFeature;
+    const opt = this.options['use-feature'];
+
+    let isReset = false;
+    let isGrid = false;
+    let isModules = false;
+    if (feat) {
+      isReset = feat.indexOf('bs-reset') >= 0;
+      isGrid = feat.indexOf('bs-grid') >= 0;
+      isModules = feat.indexOf('bs-modules') >= 0;
+    } else if (opt) {
+      isReset = opt.indexOf('bs-reset') >= 0;
+      isGrid = opt.indexOf('bs-grid') >= 0;
+      isModules = opt.indexOf('bs-modules') >= 0;
+    }
+
+    this.fs.copyTpl(
+      this.templatePath('src_scss_require.scss'),
+      this.destinationPath('src/scss/require.scss'),
+      {
+        includeReset: isReset,
+        includeGrid: isGrid,
+        includeModules: isModules
+      }
+    );
+
+    this.fs.copy(
+      this.templatePath('src_scss_01-setting_00_grid.scss'),
+      this.destinationPath('src/scss/01-setting/00_grid.scss')
+    );
+
+    this.fs.copy(
+      this.templatePath('src_scss_02-tools_mixin-a11y.scss'),
+      this.destinationPath('src/scss/02-tools/mixin-a11y.scss')
+    );
+
+    this.fs.copy(
+      this.templatePath('src_scss_03-generic_generic.scss'),
+      this.destinationPath('src/scss/03-generic/generic.scss')
+    );
+
+    this.fs.copy(
+      this.templatePath('src_scss_04-elements_tags.scss'),
+      this.destinationPath('src/scss/04-elements/tags.scss')
+    );
+
+    this.fs.copy(
+      this.templatePath('src_scss_05-objects_utils.scss'),
+      this.destinationPath('src/scss/05-objects/utils.scss')
+    );
+
+    this.fs.copy(
+      this.templatePath('src_scss_07-trumps__hotfixes.scss'),
+      this.destinationPath('src/scss/07-trumps__hotfixes.scss')
+    );
+  }
 
   /**
    * Rename and copy .editorConfig to project root
@@ -140,22 +291,89 @@ module.exports = class extends Generator {
   }
 
   /**
+   * Rename and copy markup
+   * @private
+   */
+  _writingMarkup() {
+    this.fs.copy(
+      this.templatePath('src_markup_layouts_default.html'),
+      this.destinationPath('src/markup/layouts/default.html')
+    );
+    this.fs.copy(
+      this.templatePath('src_markup_pages_index.html'),
+      this.destinationPath('src/markup/pages/index.html')
+    );
+    this.fs.copy(
+      this.templatePath('src_markup_partials_area_footer.html'),
+      this.destinationPath('src/markup/partials/area/footer.html')
+    );
+    this.fs.copy(
+      this.templatePath('src_markup_partials_area_header.html'),
+      this.destinationPath('src/markup/partials/area_header.html')
+    );
+  }
+
+  /**
    * Copy gulpfile to project root
    * @private
    */
-  _writingGulpfile() {
+  _writingGulp() {
     this.fs.copy(this.templatePath('Gulpfile.js'), this.destinationPath('Gulpfile.js'));
+    this.fs.copy(
+      this.templatePath('felab_gulp_template.js'),
+      this.destinationPath('felab/gulp/template.js')
+    );
   }
 
   /**
    * Copy gruntfile to project root
    * @private
    */
-  _writingGruntfile() {
+  _writingGrunt() {
     this.fs.copy(this.templatePath('Gruntfile.js'), this.destinationPath('Gruntfile.js'));
+    this.fs.copy(
+      this.templatePath('felab_custom_server.js'),
+      this.destinationPath('felab/custom/server.js')
+    );
+    this.fs.copy(
+      this.templatePath('felab_custom_testconfig.js'),
+      this.destinationPath('felab/custom/testconfig.js')
+    );
+    this.fs.copy(
+      this.templatePath('felab_default_aliases.yaml'),
+      this.destinationPath('felab/default/aliases.yaml')
+    );
+    this.fs.copy(
+      this.templatePath('felab_default_clean.js'),
+      this.destinationPath('felab/default/clean.js')
+    );
+    this.fs.copy(
+      this.templatePath('felab_default_config.json'),
+      this.destinationPath('felab/default/config.json')
+    );
+    this.fs.copy(
+      this.templatePath('felab_default_postcss.js'),
+      this.destinationPath('felab/default/postcss.js')
+    );
+    this.fs.copy(
+      this.templatePath('felab_default_sass.js'),
+      this.destinationPath('felab/default/sass.js')
+    );
+    this.fs.copy(
+      this.templatePath('felab_default_sassdoc.js'),
+      this.destinationPath('felab/default/sassdoc.js')
+    );
+    this.fs.copy(
+      this.templatePath('felab_user_aliases.yaml'),
+      this.destinationPath('felab/user/aliases.yaml')
+    );
   }
 
-  _buildSrcFolder() {
+  /**
+   * Build project folders
+   * @private
+   */
+  _buildFolders() {
     const markup = [
       'helpers',
       'layouts',
@@ -165,7 +383,31 @@ module.exports = class extends Generator {
       'partials/modules',
       'partials/structure'
     ];
-    this._buildPathFromArray('src/', markup);
+    const scss = [
+      '01-settings',
+      '02-tools',
+      '03-generic',
+      '04-elements',
+      '05-objects',
+      '06-components__areas',
+      '06-components__elements',
+      '06-components__modules',
+      '06-components__structure',
+      '07-trumps__browser',
+      '07-trumps__cms-styles',
+      '07-trumps__script-styles',
+      'fonts',
+      'img'
+    ];
+
+    mkdirp('src/script');
+    mkdirp('_devel');
+    mkdirp('app');
+    mkdirp('doc');
+    mkdirp('tmp');
+    mkdirp('test');
+    this._buildPathFromArray('src/markup/', markup);
+    this._buildPathFromArray('src/scss/', scss);
   }
 
   /**
