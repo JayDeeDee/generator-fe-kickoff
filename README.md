@@ -1,6 +1,6 @@
 # generator-felab [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 > 
-> [Yeoman](http://yeoman.io) generator that scaffolds out a design system using grunt anf gulp for the build process
+> [Yeoman](http://yeoman.io) generator that scaffolds out a design system using grunt and gulp for the build process
 ## Installation
 
 **DO NOT use in production, it is still just a prototype**
@@ -35,7 +35,6 @@ yo felab
 -  `--skip-install-msg` do not show the install hint before dependencies are being installed 
 
 
-- `--skip-install` do not initiate yarn 
 - `--skip-install` do not initiate yarn 
 
 
